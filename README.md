@@ -30,16 +30,30 @@ You should also find a Nagios UI at [localhost:3083/nagios3](http://localhost:30
 
 ## Get comfortable with the flapjack CLI
 
-`flapjack --help`
-`simulate-failed-check --help`
-etc
+```bash
+export PATH=$PATH:/opt/flapjack/bin
 
-[TODO: check all the binscripts are in the PATH of the vagrant user by default]
+flapjack --help
 
+simulate-failed-check --help
+
+# etc
+```
+
+Have a look at the executables under `/opt/flapjack/bin`. Details of these are also available [on the wiki](https://github.com/flpjck/flapjack/wiki/USING#running).
+
+[TODO: get all the binscripts in the PATH of the vagrant user by default]
 
 ## Simulate a check failure
 
-`simulate-failed-check ...`
+Run something like:
+
+```bash
+simulate-failed-check fail-and-recover \
+  --entity foo-app-01.example.com \
+  --check Sausage \
+  --time 1
+```
 
 ### Verify:
 
@@ -54,6 +68,8 @@ All that remains is to configure `flapjack-nagios-receiver` to read from this na
 - Edit the flapjack config file at `/etc/flapjack/flapjack_config.yaml`
 - Find the `nagios-receiver` section under `production` and change the `fifo: ` to be `/var/cache/icinga/event_stream.fifo`
 - Start it up with `sudo /etc/init.d/flapjack-nagios-receiver start`
+
+More details on configuration are avilable [on the wiki](https://github.com/flpjck/flapjack/wiki/USING#configuring-components).
 
 ### Verify:
 
