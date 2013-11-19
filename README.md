@@ -57,7 +57,9 @@ simulate-failed-check fail-and-recover \
 
 ### Verify:
 
-Reload the flapjack web UI and you should now be able to see the status of the check you're simulating.
+Reload the flapjack web UI and you should now be able to see the status of the check you're simulating, eg at:
+
+  http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage
 
 ## Integrate flapjack with Nagios (and Icinga)
 
