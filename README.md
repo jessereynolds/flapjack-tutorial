@@ -26,7 +26,9 @@ More information: [vagrant-flapjack](https://github.com/flpjck/vagrant-flapjack)
 
 Visit [localhost:3080](http://localhost:3080) from your host workstation and you should see the flapjack web UI.
 
-You should also find a Nagios UI at [localhost:3083/nagios3](http://localhost:3083/nagios3) and an Icinga UI at [localhost:3083/icinga](http://localhost:3083/icinga)
+You should also find Icinga and Nagios UIs running at:
+- [localhost:3083/nagios3](http://localhost:3083/nagios3) u: nagiosadmin, p: nagios
+- [localhost:3083/icinga](http://localhost:3083/icinga) u: icingaadmin, p: icinga
 
 ## Get comfortable with the flapjack CLI
 
