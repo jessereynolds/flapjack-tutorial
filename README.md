@@ -48,6 +48,14 @@ You should also find Icinga and Nagios UIs running at:
 
 ## Get comfortable with the flapjack CLI
 
+ssh into the VM:
+
+```bash
+vagrant ssh
+```
+
+Have a look at the commands:
+
 ```bash
 export PATH=$PATH:/opt/flapjack/bin
 
