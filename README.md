@@ -95,7 +95,11 @@ All that remains is to configure `flapjack-nagios-receiver` to read from this na
 
 - Edit the flapjack config file at `/etc/flapjack/flapjack_config.yaml`
 - Find the `nagios-receiver` section under `production` and change the `fifo: ` to be `/var/cache/icinga/event_stream.fifo`
-- Start it up with `sudo /etc/init.d/flapjack-nagios-receiver start`
+- Start it up with:
+
+```
+sudo /etc/init.d/flapjack-nagios-receiver start
+```
 
 More details on configuration are avilable [on the wiki](https://github.com/flpjck/flapjack/wiki/USING#configuring-components).
 
