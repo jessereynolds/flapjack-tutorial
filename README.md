@@ -12,9 +12,18 @@ In this tutorial, you'll get flapjack running in a vm using Vagrant and VirtualB
 - import contacts and entities
 - configure notification rules, intervals, and summary thresholds
 
+
 ## Getting flapjack up and running with vagrant-flapjack
 
-Optionally, import the Vagrant provided precise64 box. You can [download it first](http://files.vagrantup.com/precise64.box) and then import it:
+### Prerequites
+
+- Vagrant 1.2+
+- VirtualBox 4.2+ (or an alternative provider such as VMWare Fusion)
+- precise64.box added to your vagrant (optional pre step)
+
+### Adding the precise64.box vagrant box (VirtualBox specific, optional)
+
+In order to speed up the `vagrant up` step below, optionally import the Vagrant provided precise64 box. You can [download it first](http://files.vagrantup.com/precise64.box) and then import it:
 
 ```bash
 vagrant box add precise64 precise64.box
@@ -34,6 +43,12 @@ Do the thing:
 git clone https://github.com/flpjck/vagrant-flapjack.git
 cd vagrant-flapjack
 vagrant up
+```
+
+For an alternative provider to VirtualBox, eg VMWare Fusion, you can specify the alternative provider when running `vagrant up` like so:
+
+```
+vagrant up --provider=vmware_fusion
 ```
 
 More information: [vagrant-flapjack](https://github.com/flpjck/vagrant-flapjack)
