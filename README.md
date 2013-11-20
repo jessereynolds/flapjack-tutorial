@@ -14,6 +14,22 @@ In this tutorial, you'll get flapjack running in a vm using Vagrant and VirtualB
 
 ## Getting flapjack up and running with vagrant-flapjack
 
+Optionally, import the Vagrant provided precise64 box. You can [download it first](http://files.vagrantup.com/precise64.box) and then import it:
+
+```bash
+vagrant box add precise64 precise64.box
+```
+
+Or download and add in one step:
+
+```bash
+vagrant box add precise64 http://files.vagrantup.com/precise64.box
+```
+
+Even if you haven't pre-added the precise64 box, the following will also download and install it the first time you run `vagrant up`
+
+Do the thing:
+
 ```
 git clone https://github.com/flpjck/vagrant-flapjack.git
 cd vagrant-flapjack
