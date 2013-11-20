@@ -78,8 +78,10 @@ Run something like:
 simulate-failed-check fail-and-recover \
   --entity foo-app-01.example.com \
   --check Sausage \
-  --time 1
+  --time 3
 ```
+
+This will send a stream of critical events for 3 minutes and send one ok event at the end. If you want the last event to be a failure as well, use the `fail` command instead of `fail-and-recover`
 
 ### Verify:
 
