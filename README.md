@@ -1,6 +1,6 @@
-# ![Flapjack](https://raw.github.com/flpjck/flapjack/gh-pages/images/flapjack-2013-notext-transparent-50-50.png "Flapjack") flapjack-tutorial
+# ![Flapjack](https://raw.github.com/flpjck/flapjack/gh-pages/images/flapjack-2013-notext-transparent-50-50.png "Flapjack") Flapjack Tutorial
 
-A tutorial on getting started with Flapjack http://flapjack.io/
+A tutorial on getting started with [Flapjack](http://flapjack.io/).
 
 ## Overview
 
