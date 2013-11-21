@@ -12,7 +12,6 @@ In this tutorial, you'll get Flapjack running in a VM using Vagrant and VirtualB
 - Import contacts and entities
 - Configure notification rules, intervals, and summary thresholds
 
-
 ## Getting flapjack up and running with vagrant-flapjack
 
 ### Prerequites
@@ -33,6 +32,12 @@ Or download and add in one step:
 
 ```bash
 vagrant box add precise64 http://files.vagrantup.com/precise64.box
+```
+
+Install the `vagrant-cachier` plugin for Vagrant to speed up subsequent `vagrant up`'s:
+
+```bash
+vagrant plugin install vagrant-cachier
 ```
 
 Even if you haven't pre-added the precise64 box, the following will also download and install it the first time you run `vagrant up`
@@ -66,13 +71,13 @@ You should also find Icinga and Nagios UIs running at:
 
 SSH into the VM:
 
-```bash
+``` bash
 vagrant ssh
 ```
 
 Have a look at the commands:
 
-```bash
+```text
 export PATH=$PATH:/opt/flapjack/bin
 # ...
 flapjack --help
@@ -83,7 +88,7 @@ simulate-failed-check --help
 
 Have a look at the executables under `/opt/flapjack/bin`. Details of these are also available [on the wiki](https://github.com/flpjck/flapjack/wiki/USING#running).
 
-[TODO: get all the binscripts in the PATH of the vagrant user by default]
+TODO: get all the binscripts in the PATH of the vagrant user by default [omnibus-flapjack#11](https://github.com/flpjck/omnibus-flapjack/issues/11)
 
 ## Simulate a check failure
 
@@ -102,7 +107,7 @@ This will send a stream of critical events for 3 minutes and send one ok event a
 
 Reload the flapjack web UI and you should now be able to see the status of the check you're simulating, e.g. at:
 
-  [http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage](http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage)
+[http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage](http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage)
 
 ## Integrate Flapjack with Nagios (and Icinga)
 
@@ -182,7 +187,17 @@ Ada wants to have email alerts rolled up when there's 5 or more alerting checks,
 
 Charles wants to have email alerts rolled up when there's 10 or more alerting checks, and to have sms alerts rolled up when there's 3 or more alerting checks.
 
-# FIN
+## Feedback
+
+How did you go with this tutorial? If you have feedback on how it can be improved, or just to say "this is awesome" (or whatever), please put it out there by doing something like:
+
+- creating an [issue](https://github.com/jessereynolds/flapjack-tutorial/issues)
+- submitting a [pull request](https://github.com/jessereynolds/flapjack-tutorial/pulls)
+- jumping on [irc](irc:///#flapjack) (#flapjack on freenode)
+- writing to the [mailing list](https://groups.google.com/forum/#!forum/flapjack-project)
+- tweeting @jessereynolds or @auxesis 
+
+# ~ FIN ~
 
 ===========
 
