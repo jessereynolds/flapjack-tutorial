@@ -71,13 +71,14 @@ You should also find Icinga and Nagios UIs running at:
 
 SSH into the VM:
 
-``` bash
+```bash
 vagrant ssh
+ghjk
 ```
 
-Have a look at the commands:
+Have a look at the executables under `/opt/flapjack/bin`. Details of these are also available [on the wiki](https://github.com/flpjck/flapjack/wiki/USING#running).
 
-```text
+``` bash
 export PATH=$PATH:/opt/flapjack/bin
 # ...
 flapjack --help
@@ -85,8 +86,6 @@ flapjack --help
 simulate-failed-check --help
 # ...
 ```
-
-Have a look at the executables under `/opt/flapjack/bin`. Details of these are also available [on the wiki](https://github.com/flpjck/flapjack/wiki/USING#running).
 
 TODO: get all the binscripts in the PATH of the vagrant user by default [omnibus-flapjack#11](https://github.com/flpjck/omnibus-flapjack/issues/11)
 
@@ -129,21 +128,128 @@ More details on configuration are avilable [on the wiki](https://github.com/flpj
 
 Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.
 
-## Create contacts Ada and Charles
+## Create some contacts and Entities
+ 
+Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the [Flapjack API](https://github.com/flpjck/flapjack/wiki/API). 
 
-`curl ...`
+The vagrant-flapjack project ships with example json files that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json. 
 
-[TODO: include an example contacts json file in vagrant-flapjack as a starting point]
+### Create Contacts Ada and Charles
+ 
+We'll be using the [POST /contacts](https://github.com/flpjck/flapjack/wiki/API#wiki-post_contacts) API call to create two contacts.
 
-## Create entities foo-app-01 and foo-db-01 (.example.com)
+Run the following from your workstation, cd'd into the vagrant-flapjack directory:
+
+```
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
+  -d @examples/contacts_ada_and_charles.json \
+  http://localhost:3081/contacts
+```
+
+Or alternatively, copy and paste the following. This does the same thing, but includes the json data inline. 
+
+```
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "contacts": [
+      {
+        "id": "21",
+        "first_name": "Ada",
+        "last_name": "Lovelace",
+        "email": "ada@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345678",
+            "interval": "3600",
+            "rollup_threshold": "5"
+          },
+          "email": {
+            "address": "ada@example.com",
+            "interval": "7200",
+            "rollup_threshold": null
+          }
+        },
+        "tags": [
+          "legend",
+          "first computer programmer"
+        ]
+      },
+      {
+        "id": "22",
+        "first_name": "Charles",
+        "last_name": "Babbage",
+        "email": "charles@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345679",
+            "interval": "3600",
+            "rollup_threshold": "5"
+          },
+          "email": {
+            "address": "charles@example.com",
+            "interval": "7200",
+            "rollup_threshold": null
+          }
+        },
+        "tags": [
+          "legend",
+          "polymath"
+        ]
+      }
+    ]
+  }' \
+ http://localhost:3081/contacts
+```
+
+
+### Create entities foo-app-01 and foo-db-01 (.example.com)
+
+We'll be using the [POST /entities](https://github.com/flpjck/flapjack/wiki/API#wiki-post_entities) api call to create two entities. 
 
 We're going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.
 
-`curl ...`
+```
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
+  -d @examples/entities_foo-app-01_and_foo-db-01.json \
+  http://localhost:3081/entities
+```
 
-[TODO: include an example entities json file in vagrant-flapjack to a starting point]
+Or with json inline if you prefer:
 
-## Add some notification rules
+```
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "entities": [
+      {
+        "id": "801",
+        "name": "foo-app-01.example.com",
+        "contacts": [
+          "21",
+          "22"
+        ],
+        "tags": [
+          "foo",
+          "app"
+        ]
+      },
+      {
+        "id": "802",
+        "name": "foo-app-02.example.com",
+        "contacts": [
+          "21"
+        ],
+        "tags": [
+          "foo",
+          "db"
+        ]
+      }
+
+    ]
+  }' \
+ http://localhost:3081/entities
+```
+
+### Add some notification rules
 
 Charles wants to receive critical alerts by both SMS and email, and warnings by email only. Charles never wants to see an unknown alert.
 
@@ -155,7 +261,7 @@ Test with:
 
 ----
 
-Charles looks after disk utilisation problems and he's not very good at it, so Ada wants to never receive warnings about disk utilisation checks, but she still wants to be notified when they go critical.
+Charles looks after disk utilisation problems and he's not very good at it, so Ada wants to never receive warnings about disk utilisation checks. She still wants to be notified when they go critical.
 
 `curl ...`
 
@@ -163,27 +269,27 @@ Test with:
 
 `simulate-failed-check ...`
 
-### Your turn
+#### Your turn
 
 Ada wants to receive critical and warning alerts by both SMS and email, and wants to receive unknown alerts by email only.
 
 - Come up with the JSON import actions to achieve this.
 - Create and run the `simulate-failed-check ...` commands to test you've set the contact data up correctly.
 
-## Modify the notification intervals
+### Modify the notification intervals
 
 Ada wants to be notified at most every 3 hours by email, and every 5 minutes by sms:
 
 
-### Your turn
+#### Your turn
 
 Charles wants to be notified at most every 30 minute by email, and every 10 minutes by sms.
 
-## Modify summary thresholds
+### Modify summary thresholds
 
 Ada wants to have email alerts rolled up when there's 5 or more alerting checks, and to have sms alerts rolled up no matter how many alerting checks she has.
 
-### Your turn
+#### Your turn
 
 Charles wants to have email alerts rolled up when there's 10 or more alerting checks, and to have sms alerts rolled up when there's 3 or more alerting checks.
 
@@ -203,7 +309,7 @@ How did you go with this tutorial? If you have feedback on how it can be improve
 
 # TODO:
 
-- add instructions for using a alternative Vagrant providers, eg AWS, VMWare Fusion
+- add instructions for using alternative Vagrant providers, eg AWS, VMWare Fusion
 - add a jabber daemon with MUC, eg ejabberd, and include steps to integrate and test
 
 ## Start up the fake SMTP server (mailcatcher)
