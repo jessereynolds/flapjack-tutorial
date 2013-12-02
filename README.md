@@ -24,19 +24,19 @@ In this tutorial, you'll get Flapjack running in a VM using Vagrant and VirtualB
 
 In order to speed up the `vagrant up` step below, optionally import the Vagrant provided precise64 box. You can [download it first](http://files.vagrantup.com/precise64.box) and then import it:
 
-```bash
+``` shell
 vagrant box add precise64 precise64.box
 ```
 
 Or download and add in one step:
 
-```bash
+``` shell
 vagrant box add precise64 http://files.vagrantup.com/precise64.box
 ```
 
 Install the `vagrant-cachier` plugin for Vagrant to speed up subsequent `vagrant up`'s:
 
-```bash
+``` shell
 vagrant plugin install vagrant-cachier
 ```
 
@@ -44,7 +44,7 @@ Even if you haven't pre-added the precise64 box, the following will also downloa
 
 Do the thing:
 
-```
+``` shell
 git clone https://github.com/flpjck/vagrant-flapjack.git
 cd vagrant-flapjack
 vagrant up
@@ -52,7 +52,7 @@ vagrant up
 
 For an alternative provider to VirtualBox, eg VMWare Fusion, you can specify the alternative provider when running `vagrant up` like so:
 
-```
+``` shell
 vagrant up --provider=vmware_fusion
 ```
 
@@ -71,14 +71,13 @@ You should also find Icinga and Nagios UIs running at:
 
 SSH into the VM:
 
-```bash
+``` shell
 vagrant ssh
-ghjk
 ```
 
 Have a look at the executables under `/opt/flapjack/bin`. Details of these are also available [on the wiki](https://github.com/flpjck/flapjack/wiki/USING#running).
 
-``` bash
+``` shell
 export PATH=$PATH:/opt/flapjack/bin
 # ...
 flapjack --help
@@ -93,7 +92,7 @@ TODO: get all the binscripts in the PATH of the vagrant user by default [omnibus
 
 Run something like:
 
-```bash
+``` shell
 simulate-failed-check fail-and-recover \
   --entity foo-app-01.example.com \
   --check Sausage \
@@ -118,7 +117,7 @@ All that remains is to configure `flapjack-nagios-receiver` to read from this na
 - Find the `nagios-receiver` section under `production` and change the `fifo: ` to be `/var/cache/icinga/event_stream.fifo`
 - Start it up with:
 
-```
+``` shell
 sudo /etc/init.d/flapjack-nagios-receiver start
 ```
 
@@ -140,7 +139,7 @@ We'll be using the [POST /contacts](https://github.com/flpjck/flapjack/wiki/API#
 
 Run the following from your workstation, cd'd into the vagrant-flapjack directory:
 
-```
+``` shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
   -d @examples/contacts_ada_and_charles.json \
   http://localhost:3081/contacts
@@ -148,7 +147,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 Or alternatively, copy and paste the following. This does the same thing, but includes the json data inline. 
 
-```
+``` shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
     "contacts": [
@@ -208,7 +207,7 @@ We'll be using the [POST /entities](https://github.com/flpjck/flapjack/wiki/API#
 
 We're going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.
 
-```
+``` shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
   -d @examples/entities_foo-app-01_and_foo-db-01.json \
   http://localhost:3081/entities
@@ -216,7 +215,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 Or with json inline if you prefer:
 
-```
+``` shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
     "entities": [
