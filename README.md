@@ -132,7 +132,7 @@ Reload the Flapjack web interface and you should now see the checks from Icinga 
  
 Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the [Flapjack API](https://github.com/flpjck/flapjack/wiki/API). 
 
-The vagrant-flapjack project ships with example json files that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json. 
+The vagrant-flapjack project ships with [example json files](https://github.com/flpjck/vagrant-flapjack/tree/master/examples) that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json. 
 
 ### Create Contacts Ada and Charles
  
