@@ -200,6 +200,10 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
  http://localhost:3081/contacts
 ```
 
+#### Verify:
+
+Click [Contacts](http://localhost:3080/contacts) in the Flapjack web UI
+
 
 ### Create entities foo-app-01 and foo-db-01 (.example.com)
 
@@ -252,12 +256,54 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 Charles wants to receive critical alerts by both SMS and email, and warnings by email only. Charles never wants to see an unknown alert.
 
-`curl ...`
+To do this, we're going to modify the automatically generated general notification rule. 
+
+First up, discover the UUID of Charles' general notification rule by visiting the Charles' contact page in the Web UI. 
+
+You can also retrieve Charles' notification rules via the API:
+
+```bash
+curl http://localhost:3081/contacts/21/notification_rules
+```
+
+Now, we're going to update this notification rule using HTTP PUT ... replace RULE_UUID with the actual UUID in the URL that curl is PUTing to. 
+
+```bash
+curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
+ '{
+    "contact_id": "22",
+    "tags": [],
+    "entities": [],
+    "time_restrictions": [],
+    "critical_media": [
+      "sms",
+      "email"
+    ],
+    "warning_media": [
+      "email"
+    ],
+    "unknown_media": [],
+    "unknown_blackhole": false,
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  }' \
+ http://localhost:3081/notification_rules/RULE_UUID
+```
 
 Test with:
 
-`simulate-failed-check ...`
+```bash
+simulate-failed-check fail-and-recover \
+  --entity foo-app-01.example.com \
+  --check Sausage \
+  --state CRITICAL \
+  --time 3
 
+tail /var/log/flapjack/
+```
+
+You should see:
+- an email notification being generated ()
 ----
 
 Charles looks after disk utilisation problems and he's not very good at it, so Ada wants to never receive warnings about disk utilisation checks. She still wants to be notified when they go critical.
@@ -277,7 +323,9 @@ Ada wants to receive critical and warning alerts by both SMS and email, and want
 
 ### Modify the notification intervals
 
-Ada wants to be notified at most every 3 hours by email, and every 5 minutes by sms:
+Ada wants to be notified at most every 3 hours by email, and every 5 minutes by sms. 
+
+
 
 
 #### Your turn
