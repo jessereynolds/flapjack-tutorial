@@ -107,6 +107,10 @@ Reload the flapjack web UI and you should now be able to see the status of the c
 
 [http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage](http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage)
 
+## Remove scheduled maintenance for Sausage on foo-app-01.example.com
+
+This is done on the check page linked above. If you don't remove the scheduled maintenance, then testing alerts later on will not work. 
+
 ## Integrate Flapjack with Nagios (and Icinga)
 
 Both Nagios and Icinga are configured already to append check output data to the following named pipe: `/var/cache/icinga/event_stream.fifo`.
@@ -293,13 +297,15 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 Test with:
 
 ```bash
-simulate-failed-check fail-and-recover \
+simulate-failed-check fail \
   --entity foo-app-01.example.com \
   --check Sausage \
   --state CRITICAL \
-  --time 3
+  --time 1
 
-tail /var/log/flapjack/
+# wait until that completes (1 minute)
+
+tail /var/log/flapjack/notification.log
 ```
 
 You should see:
