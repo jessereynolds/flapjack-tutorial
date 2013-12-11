@@ -329,7 +329,7 @@ Charles looks after disk utilisation problems and he's not very good at it, so A
 ```bash
 curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
  '{
-    "contact_id": "22",
+    "contact_id": "21",
     "tags": [
       "disk",
       "utilisation"
@@ -339,7 +339,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
     "unknown_media": null,
     "warning_media": [],
     "critical_media": [],
-    "unknown_blackhole": false,
+    "unknown_blackhole": true,
     "warning_blackhole": true,
     "critical_blackhole": true
   }' \
