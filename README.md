@@ -34,12 +34,6 @@ Or download and add in one step:
 vagrant box add precise64 http://files.vagrantup.com/precise64.box
 ```
 
-Install the `vagrant-cachier` plugin for Vagrant to speed up subsequent `vagrant up`'s:
-
-``` shell
-vagrant plugin install vagrant-cachier
-```
-
 Even if you haven't pre-added the precise64 box, the following will also download and install it the first time you run `vagrant up`
 
 Do the thing:
@@ -309,7 +303,25 @@ tail /var/log/flapjack/notification.log
 ```
 
 You should see:
-- an email notification being generated ()
+- an email notification being generated
+- a sms notification being generated
+
+```bash
+simulate-failed-check fail \
+  --entity foo-app-01.example.com \
+  --check Sausage \
+  --state WARNING \
+  --time 1
+
+# wait until that completes (1 minute)
+
+tail /var/log/flapjack/notification.log
+```
+
+You should see:
+- an email notification with Warning state
+- **no** sms notification with Warning state
+
 ----
 
 Charles looks after disk utilisation problems and he's not very good at it, so Ada wants to never receive warnings about disk utilisation checks. She still wants to be notified when they go critical.
