@@ -336,7 +336,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
     ],
     "entities": [],
     "time_restrictions": [],
-    "unknown_media": null,
+    "unknown_media": [],
     "warning_media": [],
     "critical_media": [],
     "unknown_blackhole": true,
@@ -348,7 +348,20 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 
 Test with:
 
-`simulate-failed-check ...`
+```bash
+simulate-failed-check fail \
+  --entity foo-app-01.example.com \
+  --check Sausage \
+  --state UNKNOWN \
+  --time 1
+
+# wait until that completes (1 minute)
+
+tail /var/log/flapjack/notification.log
+```
+
+You should see:
+- **no** alerts going to Ada
 
 #### Your turn
 
