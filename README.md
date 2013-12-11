@@ -326,7 +326,25 @@ You should see:
 
 Charles looks after disk utilisation problems and he's not very good at it, so Ada wants to never receive warnings about disk utilisation checks. She still wants to be notified when they go critical.
 
-`curl ...`
+```bash
+curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
+ '{
+    "contact_id": "22",
+    "tags": [
+      "disk",
+      "utilisation"
+    ],
+    "entities": [],
+    "time_restrictions": [],
+    "unknown_media": null,
+    "warning_media": [],
+    "critical_media": [],
+    "unknown_blackhole": false,
+    "warning_blackhole": true,
+    "critical_blackhole": true
+  }' \
+ http://localhost:3081/notification_rules/RULE_UUID
+```
 
 Test with:
 
