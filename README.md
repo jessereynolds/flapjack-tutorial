@@ -385,13 +385,8 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 
 Charles wants to be notified at most every 30 minute by email, and every 10 minutes by sms.
 
-### Modify summary thresholds
-
-Ada wants to have email alerts rolled up when there's 5 or more alerting checks, and to have sms alerts rolled up no matter how many alerting checks she has.
-
-#### Your turn
-
 Charles wants to have email alerts rolled up when there's 10 or more alerting checks, and to have sms alerts rolled up when there's 3 or more alerting checks.
+
 
 ## Feedback
 
