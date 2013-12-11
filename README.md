@@ -354,14 +354,31 @@ Test with:
 
 Ada wants to receive critical and warning alerts by both SMS and email, and wants to receive unknown alerts by email only.
 
-- Come up with the JSON import actions to achieve this.
+- Come up with the JSON API actions to achieve this.
 - Create and run the `simulate-failed-check ...` commands to test you've set the contact data up correctly.
 
-### Modify the notification intervals
+### Modify notification intervals and rollup thresholds
 
-Ada wants to be notified at most every 3 hours by email, and every 5 minutes by sms. 
+Ada wants to be notified at most every 1 hour by email, and every 5 minutes by sms. Ada also only wants receive only summary alerts for email, and summary alerts for sms once she has 5 or more alerting checks. 
 
+```bash
+curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
+ '{
+    "address": "ada@example.com",
+    "interval": 3600,
+    "rollup_threshold": 0
+  }' \
+ http://localhost:3081/contacts/21/media/email
 
+curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
+ '{
+    "address": "+61412345678",
+    "interval": 300,
+    "rollup_threshold": 5
+  }' \
+ http://localhost:3081/contacts/21/media/sms
+
+```
 
 
 #### Your turn
