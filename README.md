@@ -72,15 +72,12 @@ vagrant ssh
 Have a look at the executables under `/opt/flapjack/bin`. Details of these are also available [on the wiki](https://github.com/flpjck/flapjack/wiki/USING#running).
 
 ``` shell
-export PATH=$PATH:/opt/flapjack/bin
-# ...
 flapjack --help
 # ...
 simulate-failed-check --help
 # ...
+ls -l /opt/flapjack/bin
 ```
-
-TODO: get all the binscripts in the PATH of the vagrant user by default [omnibus-flapjack#11](https://github.com/flpjck/omnibus-flapjack/issues/11)
 
 ## Simulate a check failure
 
@@ -103,7 +100,7 @@ Reload the flapjack web UI and you should now be able to see the status of the c
 
 ## Remove scheduled maintenance for Sausage on foo-app-01.example.com
 
-This is done on the check page linked above. If you don't remove the scheduled maintenance, then testing alerts later on will not work. 
+This is done on the check page linked above. If you don't remove the scheduled maintenance, then testing alerts later on will not work.
 
 ## Integrate Flapjack with Nagios (and Icinga)
 
@@ -126,13 +123,13 @@ More details on configuration are avilable [on the wiki](https://github.com/flpj
 Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.
 
 ## Create some contacts and Entities
- 
-Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the [Flapjack API](https://github.com/flpjck/flapjack/wiki/API). 
 
-The vagrant-flapjack project ships with [example json files](https://github.com/flpjck/vagrant-flapjack/tree/master/examples) that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json. 
+Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the [Flapjack API](https://github.com/flpjck/flapjack/wiki/API).
+
+The vagrant-flapjack project ships with [example json files](https://github.com/flpjck/vagrant-flapjack/tree/master/examples) that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json.
 
 ### Create Contacts Ada and Charles
- 
+
 We'll be using the [POST /contacts](https://github.com/flpjck/flapjack/wiki/API#wiki-post_contacts) API call to create two contacts.
 
 Run the following from your workstation, cd'd into the vagrant-flapjack directory:
@@ -143,7 +140,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
   http://localhost:3081/contacts
 ```
 
-Or alternatively, copy and paste the following. This does the same thing, but includes the json data inline. 
+Or alternatively, copy and paste the following. This does the same thing, but includes the json data inline.
 
 ``` shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
@@ -205,7 +202,7 @@ Click [Contacts](http://localhost:3080/contacts) in the Flapjack web UI
 
 ### Create entities foo-app-01 and foo-db-01 (.example.com)
 
-We'll be using the [POST /entities](https://github.com/flpjck/flapjack/wiki/API#wiki-post_entities) api call to create two entities. 
+We'll be using the [POST /entities](https://github.com/flpjck/flapjack/wiki/API#wiki-post_entities) api call to create two entities.
 
 We're going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.
 
@@ -254,9 +251,9 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 Charles wants to receive critical alerts by both SMS and email, and warnings by email only. Charles never wants to see an unknown alert.
 
-To do this, we're going to modify the automatically generated general notification rule. 
+To do this, we're going to modify the automatically generated general notification rule.
 
-First up, discover the UUID of Charles' general notification rule by visiting the Charles' contact page in the Web UI. 
+First up, discover the UUID of Charles' general notification rule by visiting the Charles' contact page in the Web UI.
 
 You can also retrieve Charles' notification rules via the API:
 
@@ -264,7 +261,7 @@ You can also retrieve Charles' notification rules via the API:
 curl http://localhost:3081/contacts/21/notification_rules
 ```
 
-Now, we're going to update this notification rule using HTTP PUT ... replace RULE_UUID with the actual UUID in the URL that curl is PUTing to. 
+Now, we're going to update this notification rule using HTTP PUT ... replace RULE_UUID with the actual UUID in the URL that curl is PUTing to.
 
 ```bash
 curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
@@ -372,7 +369,7 @@ Ada wants to receive critical and warning alerts by both SMS and email, and want
 
 ### Modify notification intervals and rollup thresholds
 
-Ada wants to be notified at most every 1 hour by email, and every 5 minutes by sms. Ada also only wants receive only summary alerts for email, and summary alerts for sms once she has 5 or more alerting checks. 
+Ada wants to be notified at most every 1 hour by email, and every 5 minutes by sms. Ada also only wants receive only summary alerts for email, and summary alerts for sms once she has 5 or more alerting checks.
 
 ```bash
 curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
@@ -409,7 +406,7 @@ How did you go with this tutorial? If you have feedback on how it can be improve
 - submitting a [pull request](https://github.com/jessereynolds/flapjack-tutorial/pulls)
 - jumping on [irc](irc:///#flapjack) (#flapjack on freenode)
 - writing to the [mailing list](https://groups.google.com/forum/#!forum/flapjack-project)
-- tweeting @jessereynolds or @auxesis 
+- tweeting @jessereynolds or @auxesis
 
 # ~ FIN ~
 
