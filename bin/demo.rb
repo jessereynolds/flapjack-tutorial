@@ -93,3 +93,5 @@ else
   Flapjack::Diner.update_entities(entity_all_data[:id], :add_contact => ada_data[:id])
 end
 
+puts "Ada is now set up to receive notifications for all failing checks via sms to '#{ada_cell}'"
+
