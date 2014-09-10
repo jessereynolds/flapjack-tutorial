@@ -1,0 +1,30 @@
+GIT
+  remote: git://github.com/flapjack/flapjack-diner.git
+  revision: 65cc49246a64735e185f37acf9a728b542a3ca68
+  specs:
+    flapjack-diner (1.0.0.rc2)
+      httparty (>= 0.10)
+      json (>= 1.7.7)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    coderay (1.1.0)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
+    json (1.8.1)
+    method_source (0.8.2)
+    multi_xml (0.5.5)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    slop (3.6.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  flapjack-diner!
+  pry
